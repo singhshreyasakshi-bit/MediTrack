@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediTrack India | Medicine Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">💊</div>
+        <div>
+          <h1>MediTrack</h1>
+          <span>India</span>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-link active" data-page="dashboard">🏠 <span>Dashboard</span></button>
+        <button class="nav-link" data-page="medicines">💊 <span>Medicines</span></button>
+        <button class="nav-link" data-page="reminders">⏰ <span>Reminders</span></button>
+        <button class="nav-link" data-page="expiry">⚠️ <span>Expiry Alerts</span></button>
+        <button class="nav-link" data-page="reports">📊 <span>Reports</span></button>
+        <button class="nav-link" data-page="profile">👤 <span>Profile</span></button>
+      </nav>
+
+      <div class="sidebar-note">
+        <strong>Medicine management</strong>
+        <p>Keep medicine details, reminders, expiry dates and usage history organized.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">MEDICINE MANAGEMENT SYSTEM</p>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" id="notificationBtn" title="Expiry alerts">🔔<span id="alertDot"></span></button>
+          <div class="user-chip">👤 <span>Admin</span></div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section class="page active" id="dashboard">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">WELCOME</p>
+            <h3>Hello, Admin 👋</h3>
+            <p>Manage your medicines, prescriptions, reminders and expiry information in one place.</p>
+          </div>
+          <div class="hero-actions">
+            <button class="primary-btn" id="dashboardAddBtn">＋ Add Medicine</button>
+            <button class="secondary-btn" id="dashboardScanBtn">▣ Scan QR / Barcode</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">💊</div>
+            <div><span>Total Medicines</span><strong id="totalMedicines">0</strong></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">⏰</div>
+            <div><span>Today's Reminders</span><strong id="todayReminders">0</strong></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red">⚠️</div>
+            <div><span>Expiring Soon</span><strong id="expiringSoon">0</strong></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">✓</div>
+            <div><span>Usage Records</span><strong id="usageRecords">0</strong></div>
+          </div>
+        </div>
+
+        <div class="two-column">
+          <div class="panel">
+            <div class="panel-head">
+              <div><h3>Today's Schedule</h3><p>Your medicine reminders for today</p></div>
+              <button class="text-btn" data-page-target="reminders">View all →</button>
+            </div>
+            <div id="dashboardReminders" class="schedule-list"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div><h3>Expiry Alerts</h3><p>Medicines that need attention</p></div>
+              <button class="text-btn" data-page-target="expiry">View all →</button>
+            </div>
+            <div id="dashboardExpiry"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MEDICINES -->
+      <section class="page" id="medicines">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MEDICINE RECORDS</p>
+            <h3>Medicine Library</h3>
+            <p>Store medicine, batch and manufacturing information.</p>
+          </div>
+          <div class="hero-actions">
+            <button class="secondary-btn" id="scanBtn">▣ Scan QR / Barcode</button>
+            <button class="primary-btn" id="addBtn">＋ Add Medicine</button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <input id="medicineSearch" type="search" placeholder="Search by medicine name, batch number or ID...">
+          <select id="medicineSort">
+            <option value="name">Sort: Medicine Name</option>
+            <option value="expiry">Sort: Expiry Date</option>
+            <option value="batch">Sort: Batch Number</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Medicine</th>
+                <th>Manufacturer</th>
+                <th>Batch</th>
+                <th>Manufacturing</th>
+                <th>Expiry</th>
+                <th>Quantity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="medicineTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- REMINDERS -->
+      <section class="page" id="reminders">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PRESCRIPTION & REMINDER</p>
+            <h3>Medicine Reminders</h3>
+            <p>Set schedules and record whether a medicine was taken or skipped.</p>
+          </div>
+          <button class="primary-btn" id="addReminderBtn">＋ Add Reminder</button>
+        </div>
+
+        <div class="reminder-grid" id="reminderGrid"></div>
+      </section>
+
+      <!-- EXPIRY -->
+      <section class="page" id="expiry">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">EXPIRY TRACKER</p>
+            <h3>Expiry Alerts</h3>
+            <p>Check medicines that are approaching their expiry date.</p>
+          </div>
+        </div>
+        <div class="alert-list" id="expiryList"></div>
+      </section>
+
+      <!-- REPORTS -->
+      <section class="page" id="reports">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">HISTORY</p>
+            <h3>Reports & Usage History</h3>
+            <p>Review medicine usage records and medicine information.</p>
+          </div>
+        </div>
+        <div class="report-cards">
+          <div class="report-card"><span>✓</span><div><strong id="takenCount">0</strong><small>Marked Taken</small></div></div>
+          <div class="report-card"><span>↷</span><div><strong id="skippedCount">0</strong><small>Marked Skipped</small></div></div>
+          <div class="report-card"><span>💊</span><div><strong id="reportMedicineCount">0</strong><small>Medicine Records</small></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Usage Log</h3><p>Recent reminder activity</p></div></div>
+          <div class="table-wrap no-border">
+            <table>
+              <thead><tr><th>Medicine</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+              <tbody id="usageTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="page" id="profile">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">USER</p>
+            <h3>Profile</h3>
+            <p>Basic user information for the medicine management system.</p>
+          </div>
+        </div>
+        <div class="profile-card">
+          <div class="profile-avatar">👤</div>
+          <div>
+            <h3>Admin</h3>
+            <p>Medicine Management User</p>
+          </div>
+          <div class="profile-fields">
+            <label>Name<input id="profileName" value="Admin"></label>
+            <label>Age<input id="profileAge" type="number" placeholder="Enter age"></label>
+            <label>Location<input id="profileLocation" placeholder="Enter location"></label>
+          </div>
+          <button class="primary-btn" id="saveProfile">Save Profile</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ADD MEDICINE MODAL -->
+  <div class="modal hidden" id="medicineModal">
+    <div class="modal-box">
+      <button class="close-btn" data-close="medicineModal">×</button>
+      <p class="eyebrow">NEW RECORD</p>
+      <h3>Add Medicine</h3>
+      <p class="modal-subtitle">Enter medicine and batch details.</p>
+      <form id="medicineForm" class="form-grid">
+        <label>Medicine Name*<input name="name" required placeholder="e.g. Paracetamol 650mg"></label>
+        <label>Generic Name<input name="generic" placeholder="e.g. Paracetamol"></label>
+        <label>Manufacturer<input name="manufacturer" placeholder="Manufacturer"></label>
+        <label>Strength<input name="strength" placeholder="e.g. 650 mg"></label>
+        <label>Form<input name="form" placeholder="Tablet / Syrup / Capsule"></label>
+        <label>Batch Number*<input name="batch" required placeholder="Batch number"></label>
+        <label>Manufacturing Date<input name="manufacturing" type="date"></label>
+        <label>Expiry Date*<input name="expiry" type="date" required></label>
+        <label>Quantity<input name="quantity" type="number" min="0" value="1"></label>
+        <label>Storage Condition<input name="storage" placeholder="e.g. Store in a cool, dry place"></label>
+        <label class="full">Uses<textarea name="uses" placeholder="Medicine uses"></textarea></label>
+        <label class="full">Precautions<textarea name="precautions" placeholder="Precautions"></textarea></label>
+        <label class="full">Side Effects<textarea name="sideEffects" placeholder="Side effects"></textarea></label>
+        <div class="form-actions full">
+          <button type="button" class="secondary-btn" data-close="medicineModal">Cancel</button>
+          <button type="submit" class="primary-btn">Save Medicine</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD REMINDER MODAL -->
+  <div class="modal hidden" id="reminderModal">
+    <div class="modal-box small">
+      <button class="close-btn" data-close="reminderModal">×</button>
+      <p class="eyebrow">NEW REMINDER</p>
+      <h3>Add Medicine Reminder</h3>
+      <form id="reminderForm" class="form-grid">
+        <label>Medicine*<select name="medicine" id="reminderMedicine" required></select></label>
+        <label>Dose<input name="dose" required placeholder="e.g. 1 tablet"></label>
+        <label>Frequency<input name="frequency" required placeholder="e.g. Once daily"></label>
+        <label>Reminder Time<input name="time" type="time" required></label>
+        <label>Start Date<input name="startDate" type="date"></label>
+        <label>End Date<input name="endDate" type="date"></label>
+        <div class="form-actions full">
+          <button type="button" class="secondary-btn" data-close="reminderModal">Cancel</button>
+          <button type="submit" class="primary-btn">Save Reminder</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCAN MODAL -->
+  <div class="modal hidden" id="scanModal">
+    <div class="modal-box small center">
+      <button class="close-btn" data-close="scanModal">×</button>
+      <div class="scan-icon">▣</div>
+      <h3>QR / Barcode Scanner</h3>
+      <p class="modal-subtitle">Scanner integration will be connected to the Python backend later. For now, you can use Manual Medicine Entry.</p>
+      <button class="primary-btn" id="scanManualBtn">＋ Enter Medicine Manually</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
